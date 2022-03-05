@@ -3,10 +3,12 @@ from socket import socket, AF_UNIX, SOCK_DGRAM
 import time
 import pathlib
 
+
 def connect_out_socket() -> socket:
     out_socket = socket(family=AF_UNIX, type=SOCK_DGRAM)
     out_socket.connect("/tmp/qwerty.socket")
     return out_socket
+
 
 def bind_in_socket() -> socket:
     in_socket = socket(family=AF_UNIX, type=SOCK_DGRAM)
@@ -16,12 +18,13 @@ def bind_in_socket() -> socket:
     in_socket.bind(str(socket_path))
     return in_socket
 
+
 class Connection:
     def __init__(self):
         self.in_socket = bind_in_socket()
         self.out_socket = connect_out_socket()
-        self.out_socket.sendall(b"start")
-        
+        self.out_socket.sendall(b"/start/")
+
     def send_word(self, word: str):
         self.out_socket.sendall(word.encode())
 
@@ -30,11 +33,21 @@ class Connection:
         msg = buf.decode()
         return int(msg)
 
+    def close(self):
+        try:
+            self.out_socket.sendall(b"/exit/")
+            self.out_socket.close()
+            self.in_socket.close()
+        except OSError:
+            pass
+
+
 def main():
     con = Connection()
     con.send_word("apple")
     i = con.receive_error_times()
     print("error times:", i)
+
 
 if __name__ == "__main__":
     main()
