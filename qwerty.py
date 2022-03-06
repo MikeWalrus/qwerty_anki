@@ -4,40 +4,37 @@ import time
 import pathlib
 
 
-def connect_out_socket() -> socket:
-    out_socket = socket(family=AF_UNIX, type=SOCK_DGRAM)
-    out_socket.connect("/tmp/qwerty.socket")
-    return out_socket
+def connect_socket() -> socket:
+    sock = socket(family=AF_UNIX, type=SOCK_DGRAM)
+    sock.connect("/tmp/qwerty.socket")
+    return sock
 
 
-def bind_in_socket() -> socket:
-    in_socket = socket(family=AF_UNIX, type=SOCK_DGRAM)
+def bind_socket(sock: socket):
     socket_path = pathlib.Path("/tmp/qwerty_anki.socket")
     if socket_path.exists():
         socket_path.unlink()
-    in_socket.bind(str(socket_path))
-    return in_socket
+    sock.bind(str(socket_path))
 
 
 class Connection:
     def __init__(self):
-        self.in_socket = bind_in_socket()
-        self.out_socket = connect_out_socket()
-        self.out_socket.sendall(b"/start/")
+        self.sock = connect_socket()
+        bind_socket(self.sock)
+        self.sock.sendall(b"/start/")
 
     def send_word(self, word: str):
-        self.out_socket.sendall(word.encode())
+        self.sock.sendall(word.encode())
 
     def receive_error_times(self) -> int:
-        buf = self.in_socket.recv(128)
+        buf = self.sock.recv(128)
         msg = buf.decode()
         return int(msg)
 
     def close(self):
         try:
-            self.out_socket.sendall(b"/exit/")
-            self.out_socket.close()
-            self.in_socket.close()
+            self.sock.sendall(b"/exit/")
+            self.sock.close()
         except OSError:
             pass
 
