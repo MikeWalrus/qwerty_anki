@@ -37,7 +37,7 @@ class State:
         self.action.setText("Enable qwerty")
         self.con.close()
         self.con = None
-        gui_hooks.reviewer_did_show_answer.remove(self.prompt_a_word)
+        gui_hooks.reviewer_did_show_question.remove(self.prompt_a_word)
 
     def toggle_enable(self):
         if not self.is_enabled:
