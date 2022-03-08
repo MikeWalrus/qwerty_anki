@@ -48,7 +48,7 @@ class State:
                 self.action.setText("Enable qwerty ✓")
                 gui_hooks.reviewer_did_show_question.append(self.prompt_a_word)
                 gui_hooks.profile_will_close.append(self.con.close)
-            except ConnectionRefusedError:
+            except (ConnectionRefusedError, FileNotFoundError):
                 showInfo("Cannot connect to qwerty. Is it running?", title="qwerty addon")
         else:
             self.disable()

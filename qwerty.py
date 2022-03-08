@@ -20,15 +20,10 @@ def bind_socket(sock: socket):
 class Connection:
     def __init__(self):
         sock = None
-        try:
-            sock = connect_socket()
-            bind_socket(sock)
-            sock.sendall(b"/start/")
-            self.sock = sock
-        except ConnectionRefusedError as e:
-            if sock is not None:
-                sock.close()
-            raise e
+        sock = connect_socket()
+        bind_socket(sock)
+        sock.sendall(b"/start/")
+        self.sock = sock
 
     def send_word(self, word: str):
         self.sock.sendall(word.encode())
