@@ -24,13 +24,15 @@ def error_times_to_ease(error_times: int, thresholds: List[int]) -> Literal[1, 2
 class Config:
     thresholds: List[int]
     command: Optional[str]
+    answer_field: str
 
-    def __init__(self, thresholds: List[int], command: str):
+    def __init__(self, thresholds: List[int], command: str, answer_field: str):
         if self.are_thresholds_valid(thresholds):
             self.thresholds = thresholds
         else:
             raise ValueError
         self.command = command
+        self.answer_field = answer_field
 
     @staticmethod
     def are_thresholds_valid(thresholds: List[int]) -> bool:
@@ -110,9 +112,10 @@ class State:
         return self.con.receive_error_times()
 
     def prompt_a_word(self, card: Card):
+        answer_field = self.config.answer_field
         items = card.note().items()
         for (k, v) in items:
-            if k == "Back":
+            if k == answer_field:
                 word = v
                 op = operations.QueryOp(op=lambda col: self.communicate(word, col),
                                         success=self.answer_the_card,
