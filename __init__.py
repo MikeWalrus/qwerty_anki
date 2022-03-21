@@ -6,7 +6,6 @@ from aqt import mw, operations
 from aqt import qconnect
 from aqt.qt import QAction, QMessageBox
 from aqt.utils import showInfo, tooltip
-from itertools import pairwise
 
 from .qwerty import *
 
@@ -36,8 +35,9 @@ class Config:
 
     @staticmethod
     def are_thresholds_valid(thresholds: List[int]) -> bool:
-        return len(thresholds) == 3 \
-               and all([a >= b for (a, b) in pairwise(thresholds)])
+        if len(thresholds) != 3:
+            return False
+        return thresholds[0] >= thresholds[1] >= thresholds[2]
 
 
 class State:
