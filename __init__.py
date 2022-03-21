@@ -94,7 +94,7 @@ class State:
                 self.toggle_enable()
 
             try:
-                sp.Popen(command.split())
+                sp.Popen(command, shell=True)
                 op = operations.QueryOp(
                     op=lambda _: toggle_after_some_time(),
                     parent=mw.app.activeWindow(),
