@@ -1,4 +1,9 @@
-## Demo
+# qwerty
+This is an Anki addon for memorizing spellings and practicing typing.
+
+Inspired by [qwerty-learner](https://github.com/Kaiyiwing/qwerty-learner).
+
+Depends on [qwerty](https://github.com/MikeWalrus/qwerty).
 
 ![Demo](./gif/qwerty.gif)
 background image: Ted.ns, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons
