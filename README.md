@@ -19,11 +19,22 @@ there.
 "Enable qwerty", or go on to configure the add-on to run it for you.
 
 ## Configuration
+Open up the configuration file via "Tools->Add-ons->Config".
+### `answer_field`
+Set this to the name of the field containing what you'll be typing out.
+
+Go to "Tools->Manage Note Types", select your deck,
+and click on "Fields" to find out the name.
+
+Defaults to:
+```json
+"answer_field": "Back"
+```
 ### `command`
-Open up the configuration file via "Tools->Add-ons->Config", and put your
+Put your
 command for running `qwerty` in a terminal in the `"command"` field. It should
 be something like this:
-```
+```json
 "command": "alacritty -e qwerty"
 ```
  assuming
@@ -34,3 +45,26 @@ binary if you haven't installed it.
 If set correctly, when the add-on complains about `qwerty` not running, the
 command will be executed and brings up the terminal if you click on the "Open"
 button.
+
+### `thresholds`
+Three thresholds of the misspell time for the addon to choose an "ease"
+(ie: "Again", "Hard", "Good", "Easy") for you.
+
+For example:
++ `[4, 3, 2]`
+    - Again: Misspell more than 4 times.
+    - Hard: Misspell less than 4 times but more than twice. (3 times)
+    - Good: Less than 3 times but more than once. (2 times)
+    - Easy: Once or none.
++ `[2, 2, 1]` is the default because this makes the most sense to me.
+    - Again: Misspell more than once.
+    - Good: Misspell once.
+    - Easy: No misspelling at all.
+
+```json
+  "thresholds": [
+    2,
+    2,
+    1
+  ]
+```
