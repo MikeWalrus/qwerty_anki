@@ -1,5 +1,9 @@
-## Quick Start
+## Demo
 
+![Demo](./gif/qwerty.gif)
+background image: Ted.ns, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons
+
+## Quick Start
 1. Find your anki [addon
 folder](https://addon-docs.ankiweb.net/addon-folders.html), create a new folder and copy everything
 there.
